@@ -87,7 +87,7 @@ cmp.setup({
         end,
     },
     mapping = cmp.mapping.preset.insert({
-        ['<CR>'] = cmp.mapping.confirm({ select = false }),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
         ['<C-v>'] = cmp.mapping.complete(),
     }),
     snippet = {
