@@ -49,14 +49,27 @@ vim.api.nvim_create_autocmd('LspAttach', {
 local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local default_setup = function(server)
-    require('lspconfig')[server].setup({
-        capabilities = lsp_capabilities,
-    })
+    local lsp_config = require('lspconfig')
+    if server == 'omnisharp' then
+        local util = require('lspconfig/util')
+        lsp_config[server].setup({
+            capabilities = lsp_capabilities,
+            cmd = { 'dotnet', vim.fn.stdpath "data" .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
+            enable_import_completion = true,
+            organize_imports_on_format = true,
+            enable_roslyn_analyzers = true,
+            root_dir = util.root_pattern('*.sln', '*.csproj')
+        })
+    else
+        lsp_config[server].setup({
+            capabilities = lsp_capabilities,
+        })
+    end
 end
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-    ensure_installed = {},
+    ensure_installed = { 'omnisharp', 'rust_analyzer', 'lua_ls', 'dockerls', 'docker_compose_language_service', 'fsautocomplete', 'html', 'jsonls', 'tsserver', 'marksman', 'sqlls', 'taplo', 'vimls', 'lemminx', 'yamlls' },
     handlers = {
         default_setup,
     },
@@ -79,11 +92,11 @@ cmp.setup({
     formatting = {
         fields = { "kind", "abbr", "menu" },
         format = function(entry, vim_item)
-          local kind = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 30 })(entry, vim_item)
-          local strings = vim.split(kind.kind, "%s", { trimempty = true })
-          kind.kind = " " .. (strings[1] or "") .. " "
-          kind.menu = "    (" .. (strings[2] or "") .. ")"
-          return kind
+            local kind = lspkind.cmp_format({ mode = "symbol_text", maxwidth = 30 })(entry, vim_item)
+            local strings = vim.split(kind.kind, "%s", { trimempty = true })
+            kind.kind = " " .. (strings[1] or "") .. " "
+            kind.menu = "    (" .. (strings[2] or "") .. ")"
+            return kind
         end,
     },
     mapping = cmp.mapping.preset.insert({
@@ -96,4 +109,3 @@ cmp.setup({
         end,
     },
 })
-

@@ -16,6 +16,10 @@ end)
 vim.keymap.set('n', '<leader>|', '<C-w><C-v>')
 vim.keymap.set('n', '<leader>-', '<C-w><C-s>')
 
+vim.keymap.set('n', '<leader>n', ':bnext<CR>')
+vim.keymap.set('n', '<leader>p', ':bprevious<CR>')
+
+vim.keymap.set('n', '<leader>w', ':w<CR>')
 vim.keymap.set('n', '<leader>q', ':q<CR>')
 -- vim.keymap.set('n', '<C-h>', '<C-w><Left>')
 -- vim.keymap.set('n', '<C-l>', '<C-w><Right>')

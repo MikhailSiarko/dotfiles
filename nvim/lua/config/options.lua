@@ -24,4 +24,11 @@ vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
-
+vim.opt.listchars = {
+  eol = '⤶',
+  space = '·',
+  trail = '✚',
+  extends = '◀',
+  precedes = '▶',
+}
+vim.opt.list = true
