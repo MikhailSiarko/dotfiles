@@ -48,18 +48,63 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+local merge_table = function(table1, table2)
+    for _, value in ipairs(table2) do
+        if value ~= nil then
+            table1[#table1 + 1] = value
+        end
+    end
+    return table1
+end
+
+local split_by_new_line = function(glob)
+    local pathes = vim.fn.glob(vim.fn.getcwd() .. '/' .. glob)
+    if pathes == nil then
+        return {}
+    end
+    return vim.split(pathes, '\n', { trimempty = true })
+end
+
 local default_setup = function(server)
     local lsp_config = require('lspconfig')
     if server == 'omnisharp' then
         local util = require('lspconfig/util')
-        lsp_config[server].setup({
-            capabilities = lsp_capabilities,
-            cmd = { 'dotnet', vim.fn.stdpath "data" .. "/mason/packages/omnisharp/libexec/OmniSharp.dll" },
-            enable_import_completion = true,
-            organize_imports_on_format = true,
-            enable_roslyn_analyzers = true,
-            root_dir = util.root_pattern('*.sln', '*.csproj')
-        })
+
+        local solutions = split_by_new_line("*.sln")
+        local paths = merge_table(solutions, {})
+
+        local result = {}
+        for i, line in pairs(paths) do
+            result[i] = line
+        end
+
+        local has_only_one_sln = #result == 1
+        local has_has_more_than_one_sln = #result > 1
+
+        local solution_path = nil
+        if has_has_more_than_one_sln then
+            vim.ui.select(result, {
+                prompt = 'What solution you would like to work on?',
+                format_item = function(item)
+                    return item:match("^.+/(.+)$")
+                end
+            }, function(input) solution_path = input end)
+        elseif has_only_one_sln then
+            solution_path = result[1]
+        end
+
+        if solution_path ~= nil then
+            lsp_config[server].setup({
+                capabilities = lsp_capabilities,
+                cmd = { vim.fn.stdpath "data" .. "/mason/packages/omnisharp/omnisharp", '-s', solution_path },
+            })
+        else
+            lsp_config[server].setup({
+                capabilities = lsp_capabilities,
+                cmd = { vim.fn.stdpath "data" .. "/mason/packages/omnisharp/omnisharp" },
+                root_dir = util.root_pattern('*.sln', '*.csproj')
+            })
+        end
     else
         lsp_config[server].setup({
             capabilities = lsp_capabilities,
@@ -101,7 +146,7 @@ cmp.setup({
     },
     mapping = cmp.mapping.preset.insert({
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-v>'] = cmp.mapping.complete(),
+        ['<C-Space>'] = cmp.mapping.complete(),
     }),
     snippet = {
         expand = function(args)
