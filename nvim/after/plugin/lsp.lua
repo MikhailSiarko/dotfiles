@@ -114,7 +114,7 @@ end
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-    ensure_installed = { 'omnisharp', 'rust_analyzer', 'lua_ls', 'dockerls', 'docker_compose_language_service', 'fsautocomplete', 'html', 'jsonls', 'tsserver', 'marksman', 'sqlls', 'taplo', 'vimls', 'lemminx', 'yamlls' },
+    ensure_installed = { 'omnisharp', 'rust_analyzer', 'lua_ls', 'dockerls', 'docker_compose_language_service', 'fsautocomplete', 'html', 'jsonls', 'ts_ls', 'marksman', 'sqlls', 'taplo', 'vimls', 'lemminx', 'yamlls' },
     handlers = {
         default_setup,
     },

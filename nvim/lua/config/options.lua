@@ -25,10 +25,11 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 vim.opt.listchars = {
-  eol = '⤶',
-  space = '·',
-  trail = '✚',
-  extends = '◀',
-  precedes = '▶',
+    eol = '⤶',
+    space = '·',
+    trail = '✚',
+    extends = '◀',
+    precedes = '▶',
+    tab = '-->'
 }
 vim.opt.list = true
