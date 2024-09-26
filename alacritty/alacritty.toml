@@ -1,9 +1,0 @@
-live_config_reload = true
-
-[window]
-dimensions = { columns = 160, lines = 40 }
-blur = true
-
-[font]
-size = 14
-normal = { family = "FiraCode Nerd Font Mono", style = "Retina" }

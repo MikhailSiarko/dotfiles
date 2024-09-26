@@ -30,6 +30,6 @@ vim.opt.listchars = {
     trail = '✚',
     extends = '◀',
     precedes = '▶',
-    tab = '-->'
+    tab = '---'
 }
 vim.opt.list = true

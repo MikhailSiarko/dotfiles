@@ -1,9 +1,8 @@
 return {
-    "ellisonleao/gruvbox.nvim",
-    priority = 1000, -- make sure to load this before all the other start plugins
+    'Mofiqul/vscode.nvim',
+    priority = 1000,
     config = function()
-        -- load the colorscheme here
-        vim.o.background = 'dark'
-        vim.cmd([[colorscheme gruvbox]])
+        vim.opt.background = "dark"
+        vim.cmd.colorscheme "vscode"
     end,
 }

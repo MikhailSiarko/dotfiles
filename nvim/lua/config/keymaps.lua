@@ -1,5 +1,5 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>b", vim.cmd.Ex)
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -12,11 +12,11 @@ vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
 
-vim.keymap.set('n', '<leader>|', '<C-w><C-v>')
-vim.keymap.set('n', '<leader>-', '<C-w><C-s>')
+vim.keymap.set('n', '<leader>|', ':vsplit<CR>')
+vim.keymap.set('n', '<leader>-', ':split<CR>')
 
-vim.keymap.set('n', '<leader>n', ':bnext<CR>')
-vim.keymap.set('n', '<leader>p', ':bprevious<CR>')
+vim.keymap.set('n', '<A-]>', ':bnext<CR>')
+vim.keymap.set('n', '<A-[>', ':bprevious<CR>')
 
 vim.keymap.set('n', '<leader>w', function()
     vim.lsp.buf.format()
@@ -29,3 +29,5 @@ vim.keymap.set('n', '<C-_>', '<C-w>-')
 vim.keymap.set('n', '<C-+>', '<C-w>+')
 vim.keymap.set('n', '<C->>', '<C-w>>')
 vim.keymap.set('n', '<C-<>', '<C-w><')
+
+vim.keymap.set('n', '<A-d>', 'Yp')
